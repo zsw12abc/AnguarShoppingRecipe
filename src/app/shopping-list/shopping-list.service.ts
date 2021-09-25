@@ -17,4 +17,12 @@ export class ShoppingListService {
     //Always update the cope of ingredients with the one in service after adding one new ingredient
     this.ingredientsChanged.emit(this.ingredients.slice());
   }
+
+  addIngredients(ingredients: Ingredient[]) {
+    // for(let ingredient of ingredients){
+    //   this.addIngredient(ingredient);
+    // }
+    this.ingredients.push(...ingredients);
+    this.ingredientsChanged.emit(this.ingredients.slice());
+  }
 }
