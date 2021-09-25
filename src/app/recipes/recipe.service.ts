@@ -10,6 +10,6 @@ export class RecipeService {
   ];
 
   getRecipes() {
-    return this.recipes.slice();// only return a copy or recipes.
+    return this.recipes.slice();// only return a copy of recipes.
   }
 }
