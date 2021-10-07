@@ -9,7 +9,7 @@ export class RecipeService {
   // recipeSelected = new EventEmitter<Recipe>();
   recipesChanged = new Subject<Recipe[]>();
 
-  private recipes: Recipe[] = [
+  /*private recipes: Recipe[] = [
     new Recipe('French Fires with Meat',
       'French Fires with Meat is best',
       'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505',
@@ -24,7 +24,9 @@ export class RecipeService {
         new Ingredient('Buns', 2),
         new Ingredient('Meat', 1)]
     )
-  ];
+  ];*/
+
+  private recipes: Recipe[] = [];
 
   constructor(private shoppingListService: ShoppingListService) {
 

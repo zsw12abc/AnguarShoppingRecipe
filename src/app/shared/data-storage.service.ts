@@ -19,7 +19,12 @@ export class DataStorageService {
 
   fetchRecipes() {
     this.http.get<Recipe[]>('https://ng-course-recipe-book-e95cc-default-rtdb.asia-southeast1.firebasedatabase.app/recipes.json')
-      .subscribe(recipes  => {
+      .pipe(map(recipes => {
+        return recipes.map(recipe => {
+          return {...recipe, ingredients: recipe.ingredients ? recipe.ingredients : []}
+        })
+      }))
+      .subscribe(recipes => {
         console.log('recipes', recipes)
         this.recipeService.setRecipes(recipes);
       });
