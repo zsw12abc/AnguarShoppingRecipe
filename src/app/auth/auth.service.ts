@@ -42,7 +42,7 @@ export class AuthService {
         returnSecureToken: true
       }).pipe(catchError(this.handleError), tap(
       resData => {
-        console.log(resData)
+        // console.log(resData)
         this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
       }));
   }

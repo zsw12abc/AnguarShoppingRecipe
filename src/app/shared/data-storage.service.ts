@@ -20,22 +20,14 @@ export class DataStorageService {
         recipes
       )
       .subscribe(response => {
-        console.log(response);
+        // console.log(response);
       });
   }
 
   fetchRecipes() {
-    return this.authService.user.pipe(
-      take(1),
-      exhaustMap((user: User) => {
-        console.log(user)
-        return this.http.get<Recipe[]>(
-          'https://ng-course-recipe-book-e95cc-default-rtdb.asia-southeast1.firebasedatabase.app/recipes.json',
-          {
-            params: new HttpParams().set('auth', user.token)
-          }
-        );
-      }),
+    return this.http.get<Recipe[]>(
+      'https://ng-course-recipe-book-e95cc-default-rtdb.asia-southeast1.firebasedatabase.app/recipes.json'
+    ).pipe(
       map(recipes => {
         return recipes.map(recipe => {
           return {
