@@ -16,6 +16,8 @@ export interface AuthResponseData {
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
+  // username: test@test.com
+  // password: testtest
   user = new Subject<User>();
 
   constructor(private http: HttpClient) {
