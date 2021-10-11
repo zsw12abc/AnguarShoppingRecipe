@@ -9,7 +9,7 @@ import {FormsModule} from "@angular/forms";
   declarations: [
     ShoppingListComponent,
     ShoppingEditComponent,
-  ]
+  ],
   imports: [
     CommonModule,
     FormsModule,
