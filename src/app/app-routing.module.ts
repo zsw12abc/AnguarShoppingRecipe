@@ -9,9 +9,12 @@ import {RecipeEditComponent} from './recipes/recipe-edit/recipe-edit.component';
 import {RecipesResolverService} from './recipes/recipes-resolver.service';
 import {AuthComponent} from './auth/auth.component';
 import {AuthGuard} from "./auth/auth.guard";
+import {RecipesModule} from "./recipes/recipes.module";
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/recipes', pathMatch: 'full'},
+  {path: 'recipes', loadChildren: './recipes/recipes.module#RecipesModule'},
+  // {path: 'recipes', loadChildren: () => import('./recipes/recipes.module').then(m => m.RecipesModule)}
 ];
 
 @NgModule({
