@@ -20,6 +20,8 @@ export function shoppingListReducer(
       return {
         ...state, //copy the old states
         ingredients: [...state.ingredients, action.payload]
-      }
+      };
+    default:
+      return state;
   }
 }
