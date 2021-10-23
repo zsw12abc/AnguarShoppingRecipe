@@ -2,10 +2,6 @@ import {Ingredient} from "../../shared/ingredient.model";
 import {Action} from "rxjs/internal/scheduler/Action";
 import * as ShoppingListActions from './shopping-list.actions'
 
-export interface AppState {
-  shoppingList: State;
-}
-
 export interface State {
   ingredients: Ingredient[];
   editedIngredient: Ingredient;
