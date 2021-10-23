@@ -23,7 +23,7 @@ export interface AuthResponseData {
 export class AuthService {
   // username: test@test.com
   // password: testtest
-  user = new BehaviorSubject<User>(null);
+  // user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router, private store: Store<fromApp.AppState>) {
