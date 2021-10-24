@@ -8,6 +8,7 @@ import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
 import {SIGNUP_START} from "./auth.actions";
 import {User} from "../user.module";
+import {AuthService} from "../auth.service";
 
 export interface AuthResponseData {
   kind: string;
@@ -61,6 +62,9 @@ export class AuthEffects {
             password: signupAction.payload.password,
             returnSecureToken: true
           }).pipe(
+          tap(resData => {
+            this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+          }),
           map(resData => {
             return handleAuthentication(+resData.expiresIn, resData.email, resData.localId, resData.idToken)
           }),
@@ -81,6 +85,9 @@ export class AuthEffects {
           password: authData.payload.password,
           returnSecureToken: true
         }).pipe(
+        tap(resData => {
+          this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+        }),
         map(resData => {
           return handleAuthentication(+resData.expiresIn, resData.email, resData.localId, resData.idToken)
         }),
@@ -92,10 +99,11 @@ export class AuthEffects {
 
   @Effect({dispatch: false})
   authRedirect = this.actions$.pipe(
-    ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT),
+    ofType(AuthActions.AUTHENTICATE_SUCCESS),
     tap(() => {
       this.router.navigate(['/']);
     }))
+
   @Effect()
   autoLogin = this.actions$.pipe(
     ofType(AuthActions.AUTO_LOGIN),
@@ -112,12 +120,13 @@ export class AuthEffects {
       const loadedUser = new User(userData.email, userData.id, userData._token, new Date(userData._tokenExpirationData));
       if (loadedUser.token) {
         // this.user.next(loadedUser);
+        const expirationDuration = new Date(userData._tokenExpirationData).getTime() - new Date().getTime();
+        this.authService.setLogoutTimer(expirationDuration)
         return new AuthActions.AuthenticateSuccess({
             email: loadedUser.email, userId: loadedUser.id,
             token: loadedUser.token, expirationDate: new Date(userData._tokenExpirationData)
           }
         )
-        // const expirationDuration = new Date(userData._tokenExpirationData).getTime() - new Date().getTime();
         // this.autoLogout(expirationDuration);
       }
       return {type: 'Dummy'}
@@ -128,10 +137,12 @@ export class AuthEffects {
   autoLogout = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
     tap(() => {
+      this.authService.clearLogoutTimer()
       localStorage.removeItem('userData');
+      this.router.navigate(['/auth']);
     })
   )
 
-  constructor(private actions$: Actions, private http: HttpClient, private router: Router) {
+  constructor(private actions$: Actions, private http: HttpClient, private router: Router, private authService: AuthService) {
   }
 }
