@@ -1,5 +1,6 @@
 import {User} from "../user.module";
 import * as AuthActions from "./auth.actions";
+import {ClearError} from "./auth.actions";
 
 export interface State {
   user: User;
@@ -30,6 +31,7 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
         user: null
       }
     case AuthActions.LOGIN_START:
+    case AuthActions.SIGNUP_START:
       return {
         ...state,
         authError: null,
@@ -41,6 +43,11 @@ export function authReducer(state = initialState, action: AuthActions.AuthAction
         user: null,
         authError: action.payload,
         loading: false,
+      }
+    case AuthActions.CLEAR_ERROR:
+      return {
+        ...state,
+        authError: null
       }
     default:
       return state;
